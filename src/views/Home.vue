@@ -84,7 +84,7 @@
 
 <script>
 // @ is an alias to /src
-
+import _ from "lodash";
 export default {
   name: "Home",
   components: {},
@@ -158,6 +158,7 @@ export default {
         this.gameID = this.game.game_id;
         this.gameInfo = this.game.game_info;
         this.questions = this.gameInfo.questions;
+        this.questions = _.shuffle(this.questions);
         this.currentQuestion = this.questions[0];
       })();
       this.timerEnabled = true;

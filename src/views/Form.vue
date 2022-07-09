@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <div class="content">
+      <!-- <form onsubmit="return postQuestion();" class="form"> -->
       <form onsubmit="return postQuestion();" class="form">
         <h1 class="h-header-4 form__header">Add Questions here</h1>
         <div class="form__container">
@@ -41,7 +42,13 @@
             class="form__input"
             v-model="corr_idx"
           />
-          <button class="form__button" type="submit">Submit</button>
+          <button
+            class="form__button"
+            type="submit"
+            @click.prevent="postQuestion()"
+          >
+            Submit
+          </button>
         </div>
       </form>
     </div>
@@ -60,20 +67,26 @@ export default {
   methods: {
     postQuestion() {
       (async () => {
-        const rawResponse = await fetch("http://127.0.0.1:7777/questions", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            question: this.question,
-            answers: this.answers,
-            corr_idx: this.corr_idx,
-          }),
-        });
+        const rawResponse = await fetch(
+          "https://sheltered-fjord-40724.herokuapp.com/questions",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              question: this.question,
+              answers: this.answers,
+              corr_idx: this.corr_idx,
+            }),
+          }
+        );
         const content = await rawResponse.json();
         console.log(content);
+        this.question = "";
+        this.answers = [];
+        this.corr_idx = 0;
       })();
     },
   },
@@ -94,7 +107,7 @@ export default {
 }
 .form {
   border-radius: 10px;
-  width: 50vw;
+  width: 40vw;
   background-color: var(--color-white-1);
   box-sizing: border-box;
   padding: 50px;
