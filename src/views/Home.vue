@@ -245,6 +245,7 @@ export default {
           },
           body: JSON.stringify({
             game_id: this.gameID,
+            score: this.numCorrect,
           }),
         });
         const content = await rawResponse.json();
