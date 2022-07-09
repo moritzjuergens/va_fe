@@ -62,11 +62,19 @@
       <div id="modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-          <span class="close">&times;</span>
+          <span class="close" @click="closeModal">&times;</span>
           <p>Thanks for playing your Score is: {{ numCorrect }}</p>
+          <button @click="getHighscores">show highscores</button>
           <h3 class="h-header-5">Highscore:</h3>
           <table>
-            tr
+            <tr>
+              <td>Name</td>
+              <td>Score</td>
+            </tr>
+            <tr v-for="(x, index) in highscores" :key="index">
+              <td>{{ x.name }}</td>
+              <td>{{ x.score }}</td>
+            </tr>
           </table>
         </div>
       </div>
@@ -95,6 +103,7 @@ export default {
       corr_idx: null,
       timerCount: 20,
       timerEnabled: false,
+      highscores: [],
     };
   },
   watch: {
@@ -241,19 +250,21 @@ export default {
         const content = await rawResponse.json();
         console.log(content);
       })();
-      this.getHighscores();
       document.getElementById("modal").style.display = "block";
     },
     getHighscores() {
-      const url = `https://sheltered-fjord-40724.herokuapp.com/highscores`;
-      const response = fetch(url, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      const content = response.json();
-      console.log(content);
+      (async () => {
+        const url = `https://sheltered-fjord-40724.herokuapp.com/highscores`;
+        const rawResponse = await fetch(url, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        });
+        const content = await rawResponse.json();
+        console.log(content);
+        this.highscores = content;
+      })();
     },
     closeModal() {
       document.getElementById("modal").style.display = "none";
