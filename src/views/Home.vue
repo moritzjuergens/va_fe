@@ -58,6 +58,14 @@
           </div>
         </div>
       </div>
+
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Thanks for playing your Score is: {{ numCorrect }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -165,9 +173,11 @@ export default {
       }
       this.cnt++;
       this.currentQuestion = this.questions[this.cnt];
-      document
-        .getElementById(this.answer_given)
-        .classList.remove("correct", "wrong");
+      if (this.answer_given != 5) {
+        document
+          .getElementById(this.answer_given)
+          .classList.remove("correct", "wrong");
+      }
       this.answer_given = null;
       document.getElementById("next").style.display = "none";
       document.getElementById("submit").style.display = "block";
@@ -192,16 +202,18 @@ export default {
         });
         const content = await rawResponse.json();
         console.log(content);
-        if (content.answer) {
-          this.numCorrect++;
-          document.getElementById(this.answer_given).classList.add("correct");
-        } else {
-          this.numCorrect--;
-          document.getElementById(this.answer_given).classList.add("wrong");
-        }
-        if (this.cnt == this.questions.length - 1) {
-          this.next();
-          return;
+        if (this.answer_given != 5) {
+          if (content.answer) {
+            this.numCorrect++;
+            document.getElementById(this.answer_given).classList.add("correct");
+          } else {
+            this.numCorrect--;
+            document.getElementById(this.answer_given).classList.add("wrong");
+          }
+          if (this.cnt == this.questions.length - 1) {
+            this.next();
+            return;
+          }
         }
         this.timerCount = 20;
         document.getElementById("submit").style.display = "none";
@@ -209,6 +221,7 @@ export default {
       })();
     },
     finish() {
+      this.timerEnabled = false;
       (async () => {
         const url = `https://sheltered-fjord-40724.herokuapp.com/finish`;
         const rawResponse = await fetch(url, {
@@ -224,6 +237,10 @@ export default {
         const content = await rawResponse.json();
         console.log(content);
       })();
+      document.getElementById("modal").style.display = "block";
+    },
+    closeModal() {
+      document.getElementById("modal").style.display = "none";
     },
   },
 };
@@ -364,5 +381,41 @@ export default {
 }
 #finish {
   display: none;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
