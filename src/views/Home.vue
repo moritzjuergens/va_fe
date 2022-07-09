@@ -64,6 +64,10 @@
         <div class="modal-content">
           <span class="close">&times;</span>
           <p>Thanks for playing your Score is: {{ numCorrect }}</p>
+          <h3 class="h-header-5">Highscore:</h3>
+          <table>
+            tr
+          </table>
         </div>
       </div>
     </div>
@@ -237,7 +241,19 @@ export default {
         const content = await rawResponse.json();
         console.log(content);
       })();
+      this.getHighscores();
       document.getElementById("modal").style.display = "block";
+    },
+    getHighscores() {
+      const url = `https://sheltered-fjord-40724.herokuapp.com/highscores`;
+      const response = fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      const content = response.json();
+      console.log(content);
     },
     closeModal() {
       document.getElementById("modal").style.display = "none";
