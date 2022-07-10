@@ -5,6 +5,16 @@
         <div class="jumbo__content">
           <h3 class="h-header-3 jumbo__content__question">Enter your Name</h3>
           <form @submit="event.preventDefault()" class="form">
+            <div style="display: flex">
+              <label for="check" class="form__label">Fragen der Gruppe 8</label>
+              <input
+                name="check"
+                type="checkbox"
+                style="margin-left: 20px"
+                v-model="difQ"
+              />
+            </div>
+
             <label for="name" class="form__label">Name: </label>
             <input
               type="text"
@@ -104,6 +114,7 @@ export default {
       timerCount: 20,
       timerEnabled: false,
       highscores: [],
+      difQ: false,
     };
   },
   watch: {
@@ -145,7 +156,7 @@ export default {
   methods: {
     startGame() {
       (async () => {
-        const url = `https://sheltered-fjord-40724.herokuapp.com/start/${this.player}/10`;
+        const url = `https://sheltered-fjord-40724.herokuapp.com/start/${this.player}/${this.difQ}`;
         const rawResponse = await fetch(url, {
           method: "GET",
           headers: {
