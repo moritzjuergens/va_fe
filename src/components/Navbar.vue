@@ -10,7 +10,7 @@
           <router-link class="router-link" to="/qna">Add Questions</router-link>
         </li>
         <li class="navbar__item">
-          <router-link class="router-link" to="/about">About</router-link>
+          <router-link class="router-link" to="/about">Highscore</router-link>
         </li>
       </ul>
     </nav>
