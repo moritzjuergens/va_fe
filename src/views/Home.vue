@@ -134,6 +134,7 @@ export default {
           }, 1000);
         } else if (value <= 0 && this.timerEnabled) {
           this.answer_given = 5;
+          this.timerCount = 20;
           this.submitAnswer();
           this.next();
         }
