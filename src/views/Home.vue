@@ -75,7 +75,7 @@
           <span class="close" @click="closeModal">&times;</span>
           <p>Thanks for playing your Score is: {{ numCorrect }}</p>
           <!-- <button @click="getHighscores">show highscores</button> -->
-          <h3 class="h-header-5">Highscore:</h3>
+          <!-- <h3 class="h-header-5">Highscore:</h3>
           <table>
             <tr>
               <td>Name</td>
@@ -85,7 +85,7 @@
               <td>{{ x.name }}</td>
               <td>{{ x.score }}</td>
             </tr>
-          </table>
+          </table> -->
         </div>
       </div>
     </div>
@@ -264,18 +264,18 @@ export default {
         const content = await rawResponse.json();
         console.log(content);
       })();
-      (async () => {
-        const url = `https://sheltered-fjord-40724.herokuapp.com/highscores`;
-        const rawResponse = await fetch(url, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
-        });
-        const content = await rawResponse.json();
-        console.log(content);
-        this.highscores = content;
-      })();
+      // (async () => {
+      //   const url = `https://sheltered-fjord-40724.herokuapp.com/highscores`;
+      //   const rawResponse = await fetch(url, {
+      //     method: "GET",
+      //     headers: {
+      //       Accept: "application/json",
+      //     },
+      //   });
+      //   const content = await rawResponse.json();
+      //   console.log(content);
+      //   this.highscores = content;
+      // })();
       document.getElementById("modal").style.display = "block";
     },
     // getHighscores() {
